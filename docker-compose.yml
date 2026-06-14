@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: hirehub-db
+    restart: always
+    environment:
+      POSTGRES_USER: hirehub
+      POSTGRES_PASSWORD: hirehub
+      POSTGRES_DB: hirehub
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
