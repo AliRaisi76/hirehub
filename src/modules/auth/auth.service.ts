@@ -7,7 +7,7 @@ import { env } from '../../config/env.js';
 
 export class AuthService {
   private static generateToken(user: User): string {
-    return jwt.sign({ id: user.id, role: user.role }, env.JWT_ACCESS_SECRET, {
+    return jwt.sign({ sub: user.id, role: user.role }, env.JWT_ACCESS_SECRET, {
       expiresIn: env.JWT_ACCESS_EXPIRES_IN as SignOptions['expiresIn'],
     });
   }
