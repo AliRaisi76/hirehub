@@ -3,6 +3,7 @@ import { ZodError } from 'zod';
 import { AppError } from '../common/errors/AppError.js';
 import { env } from '../config/env.js';
 import { logger } from '../config/logger.js';
+import { Prisma } from '@prisma/client';
 
 export const errorMiddleware = (
   err: unknown,
@@ -25,6 +26,11 @@ export const errorMiddleware = (
       message: issue.message,
       code: issue.code,
     }));
+  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    if (err.code === 'P2002') {
+      statusCode = 409;
+      message = 'Resource already exists';
+    }
   } else if (err instanceof Error) {
     message = err.message;
   }
