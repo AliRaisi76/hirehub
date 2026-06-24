@@ -1,6 +1,6 @@
 import { Router, type Response, type Request } from 'express';
 import { authRouter } from './modules/auth/auth.route.js';
-import { requireAuth, requireRole } from './middlewares/auth.middleware.js';
+import { usersRoutes } from './modules/users/users.route.js';
 
 const router = Router();
 
@@ -12,9 +12,6 @@ router.get('/health', (_req: Request, res: Response) => {
 });
 
 router.use('/auth', authRouter);
-
-router.get('/me', requireAuth, requireRole('CANDIDATE'), (req, res) => {
-  res.status(200).json({ success: true, user: req.user });
-});
+router.use('/users', usersRoutes);
 
 export default router;
